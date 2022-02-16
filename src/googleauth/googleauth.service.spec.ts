@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from './app.controller';
-import { GoogleauthService } from './googleauth/googleauth.service';
+import { AppController } from '../app.controller';
+import { GoogleauthService } from './googleauth.service';
 
 describe('AppController', () => {
   let appController: AppController;

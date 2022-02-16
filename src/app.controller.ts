@@ -1,27 +1,34 @@
-import { Controller, Request, Post, Get,UseGuards , Body} from '@nestjs/common';
-import { LocalAuthGuard } from './auth/local-auth.guard';
-import { AuthService } from './auth/auth.service';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { GoogleauthService } from './googleauth/googleauth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { userDto } from './users/dto/create-user.dto';
-import { UsersService } from './users/users.service';
+import { intraauthService } from './intra_auth/intraauth.service';
+import { reduce } from 'rxjs';
+// import  from 'passport';
+// import {Strategy} from 'passport-42'
 
 @Controller()
 export class AppController {
-  // constructor(private authService: AuthService) {}
-  constructor(private readonly usersServices: UsersService, private authService: AuthService) {}
+  constructor(private readonly googleauthService: GoogleauthService) {}
 
-  @Post()
-  Consolebody(@Body() user: userDto): any {
-    return this.usersServices.insert(user);
+  @Get()
+  @UseGuards(AuthGuard('42'))
+  async IntraAuth(@Req() req) {
+    return 'amine samir';
   }
 
-  @UseGuards(LocalAuthGuard)
-  @Post('auth/login')
-  async login(@Request() req) {
-    const {username, password} = req.body;
-    const user = new UsersService;
-    const result = await user.findOne(username)
-    return this.authService.login(req.user);
+  @Get('/42/redirect')
+  @UseGuards(AuthGuard('42'))
+  intraAuthRedirect(@Req() req) {
+    return req.user;
   }
-  
+
+  // @Get()
+  // @UseGuards(AuthGuard('google'))
+  // async googleAuth(@Req() req) {}
+
+  // @Get('redirect')
+  // @UseGuards(AuthGuard('google'))
+  // googleAuthRedirect(@Req() req) {
+  //   return this.googleauthService.googleLogin(req)
+  // }
 }
